@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity
 
                             runScript(SUI, suiAPK);
                         } catch (Exception e) {
-                            Log.e("error", e.getMessage());
+                            Log.e("error", e.getMessage()); //commit problems...
                         }
                     }
                 }).start();
