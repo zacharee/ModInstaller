@@ -5,5 +5,5 @@
 mount -o rw,remount /
 mount -o rw,remount /system
 
-mv /data/media/0/Zacharee1Mods/"$1".apk /system/priv-app/"$1"/"$1".apk
-chmod /system/priv-app/"$1"/"$1".apk
+cp /data/media/0/Zacharee1Mods/"$1".apk /system/priv-app/"$1"/"$1".apk
+chmod 0644 /system/priv-app/"$1"/"$1".apk
