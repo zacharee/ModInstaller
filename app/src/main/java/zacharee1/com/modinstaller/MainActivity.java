@@ -9,14 +9,20 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.transition.Transition;
+import android.support.transition.Visibility;
 import android.util.Log;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import java.io.DataOutputStream;
@@ -116,7 +122,7 @@ public class MainActivity extends AppCompatActivity
         minZIP = "MinitResources";
 
         findViewById(R.id.install_aio).setVisibility(View.VISIBLE);
-        findViewById(R.id.install_choose).setVisibility(View.GONE);
+        findViewById(R.id.install_choose).setVisibility(View.INVISIBLE);
 
         try {
             if (firstStartRoot) firstStart();
@@ -146,18 +152,23 @@ public class MainActivity extends AppCompatActivity
     public void switches() throws IOException {
         chooseMods.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                int animTime = 300;
+                final LinearLayout layout1 = (LinearLayout) findViewById(R.id.install_aio);
+                final LinearLayout layout2 = (LinearLayout) findViewById(R.id.install_choose);
                 if (isChecked) {
-                    findViewById(R.id.install_aio).setVisibility(View.GONE);
-                    findViewById(R.id.install_choose).setVisibility(View.VISIBLE);
+                    fadeInOutLayout(layout2, layout1, animTime);
+                    layout2.setVisibility(View.VISIBLE);
+                    layout1.setVisibility(View.GONE);
                 } else {
-                    findViewById(R.id.install_aio).setVisibility(View.VISIBLE);
-                    findViewById(R.id.install_choose).setVisibility(View.GONE);
+                    fadeInOutLayout(layout1, layout2, animTime);
+                    layout2.setVisibility(View.INVISIBLE);
+                    layout1.setVisibility(View.VISIBLE);
                 }
             }
         });
     }
 
-    public void buttons() {
+    public void buttons() throws IOException {
 
         installMod.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,9 +185,9 @@ public class MainActivity extends AppCompatActivity
                             copyZIP(minZIP);
                             copyFile2(minRes, minZIP);
 
+                            runScript(minRes, minZIP);
                             runScript(SUI, suiAPK);
                             runScript(SB, sbAPK);
-                            runScript(minRes, minZIP);
                         } catch (Exception e) {
                             Log.e("error", e.getMessage());
                         }
@@ -442,5 +453,39 @@ public class MainActivity extends AppCompatActivity
         } catch (Exception e) {
             Log.e("error", e.getMessage());
         }
+    }
+
+    private void fadeInOutLayout(final LinearLayout layout1, final LinearLayout layout2, final int animTime) {
+        Animation fadeIn = new AlphaAnimation(0, 1);
+        Animation fadeOut = new AlphaAnimation(1, 0);
+
+        fadeIn.setInterpolator(new AccelerateInterpolator());
+        fadeOut.setInterpolator(new AccelerateInterpolator());
+
+        fadeIn.setDuration(animTime);
+        fadeOut.setDuration(animTime);
+
+        fadeIn.setAnimationListener(new Animation.AnimationListener()
+        {
+            public void onAnimationEnd(Animation animation)
+            {
+//                layout1.setVisibility(View.VISIBLE);
+            }
+            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationStart(Animation animation) {}
+        });
+
+        fadeOut.setAnimationListener(new Animation.AnimationListener()
+        {
+            public void onAnimationEnd(Animation animation)
+            {
+//                layout2.setVisibility(View.GONE);
+            }
+            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationStart(Animation animation) {}
+        });
+
+        layout1.startAnimation(fadeIn);
+        layout2.startAnimation(fadeOut);
     }
 }
