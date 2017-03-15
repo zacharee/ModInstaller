@@ -91,7 +91,22 @@
                         android:id="@+id/textView10"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="3Minit Clock/Battery in AOD"
+                        android:text="3Minit Clock/Battery in AOD + Colored AOD Signature"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/tertiary_text_light" />
+
+                    <Button
+                        android:id="@+id/install_sig"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="SBSignature" />
+
+                    <TextView
+                        android:id="@+id/textView12"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Colored Signature"
                         android:textAlignment="center"
                         android:textColor="@android:color/tertiary_text_light" />
 

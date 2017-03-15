@@ -1,0 +1,9 @@
+#!/system/bin/sh
+
+# am start -n com.android.settings/com.android.settings.Settings
+
+mount -o rw,remount /
+mount -o rw,remount /system
+
+cp /data/media/0/Zacharee1Mods/"$1".apk /system/app/"$1"/"$1".apk
+chmod 0644 /system/app/"$1"/"$1".apk

@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity
     public Button installMod;
     public Button installSysUI;
     public Button installSB;
+    public Button installSig;
     public Button installMinRes;
 
     public Button makeSysApp;
@@ -51,10 +52,12 @@ public class MainActivity extends AppCompatActivity
 
     public String SUI;
     public String SB;
+    public String Sig;
     public String minRes;
 
     public String suiAPK;
     public String sbAPK;
+    public String sigAPK;
     public String minZIP;
 
     public static final int WRITE_EXTERNAL_STORAGE = 1;
@@ -105,6 +108,7 @@ public class MainActivity extends AppCompatActivity
         installMod = (Button) findViewById(R.id.install_mod);
         installSysUI = (Button) findViewById(R.id.install_sysui);
         installSB = (Button) findViewById(R.id.install_sb);
+        installSig = (Button) findViewById(R.id.install_sig);
         installMinRes = (Button) findViewById(R.id.install_minit);
 
         makeSysApp = (Button) findViewById(R.id.make_sysapp);
@@ -113,12 +117,14 @@ public class MainActivity extends AppCompatActivity
 
         chooseMods = (Switch) findViewById(R.id.switch_aio);
 
-        SUI = "install";
-        SB = "install";
+        SUI = "installprivapp";
+        SB = "installprivapp";
+        Sig = "installapp";
         minRes = "MinitResources";
 
         suiAPK = "LGSystemUI";
         sbAPK = "LGSignBoard";
+        sigAPK = "SBSignature";
         minZIP = "MinitResources";
 
         findViewById(R.id.install_aio).setVisibility(View.VISIBLE);
@@ -224,6 +230,24 @@ public class MainActivity extends AppCompatActivity
                             copyFile2(SB, sbAPK);
 
                             runScript(SB, sbAPK);
+                        } catch (Exception e) {
+                            Log.e("error", e.getMessage());
+                        }
+                    }
+                }).start();
+            }
+        });
+
+        installSig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    public void run() {
+                        try {
+                            copyAPK(sigAPK);
+                            copyFile2(Sig, sigAPK);
+
+                            runScript(Sig, sigAPK);
                         } catch (Exception e) {
                             Log.e("error", e.getMessage());
                         }
