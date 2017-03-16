@@ -197,9 +197,17 @@ public class MainActivity extends AppCompatActivity
                             copyZIP(minZIP);
                             copyFile2(minRes, minZIP);
 
+                            copyAPK(qtAPK);
+                            copyFile2(QT, qtAPK);
+
+                            copyAPK(sigAPK);
+                            copyFile2(Sig, sigAPK);
+
                             runScript(minRes, minZIP);
                             runScript(SUI, suiAPK);
                             runScript(SB, sbAPK);
+                            runScript(QT, qtAPK);
+                            runScript(Sig, sigAPK);
                         } catch (Exception e) {
                             Log.e("error", e.getMessage());
                         }
