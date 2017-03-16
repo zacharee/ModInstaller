@@ -7,8 +7,8 @@ android {
         applicationId "zacharee1.com.modinstaller"
         minSdkVersion 24
         targetSdkVersion 25
-        versionCode 8
-        versionName "1.7a"
+        versionCode 9
+        versionName "1.8a"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
