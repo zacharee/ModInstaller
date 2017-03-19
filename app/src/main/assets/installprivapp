@@ -1,9 +1,9 @@
 #!/system/bin/sh
 
-# am start -n com.android.settings/com.android.settings.Settings
+IF_G5=$(sed 's/G5//g' <<< "$1")
 
 mount -o rw,remount /
 mount -o rw,remount /system
 
-cp /data/media/0/Zacharee1Mods/"$1".apk /system/priv-app/"$1"/"$1".apk
-chmod 0644 /system/priv-app/"$1"/"$1".apk
+cp /data/media/0/Zacharee1Mods/"$1".apk /system/priv-app/"$IG_G5"/"$IF_G5".apk
+chmod 0644 /system/priv-app/"$IF_G5"/"$IF_G5".apk

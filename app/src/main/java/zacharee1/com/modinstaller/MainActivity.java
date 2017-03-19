@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.transition.Transition;
@@ -23,6 +25,8 @@ import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 
 import java.io.DataOutputStream;
@@ -37,8 +41,14 @@ public class MainActivity extends AppCompatActivity
 
     public SharedPreferences sharedPrefs;
     public boolean firstStartRoot;
+    public boolean isV20;
+
+    public RadioGroup modelType;
+    public RadioButton modelG5;
+    public RadioButton modelV20;
 
     public Button installMod;
+    public Button installMod_G5;
     public Button installSysUI;
     public Button installSB;
     public Button installSig;
@@ -56,12 +66,14 @@ public class MainActivity extends AppCompatActivity
     public String Sig;
     public String QT;
     public String minRes;
+    public String SB_G5;
 
     public String suiAPK;
     public String sbAPK;
     public String sigAPK;
     public String qtAPK;
     public String minZIP;
+    public String sbAPK_G5;
 
     public static final int WRITE_EXTERNAL_STORAGE = 1;
 
@@ -72,7 +84,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        sharedPrefs = getSharedPreferences("com.zacharee1.modcontrol", MODE_PRIVATE);
+        sharedPrefs = getSharedPreferences("zacharee1.com.modcontrol", MODE_PRIVATE);
 
         if (sharedPrefs.getBoolean("firststart", true)) {
             firstStartRoot = true;
@@ -108,11 +120,17 @@ public class MainActivity extends AppCompatActivity
 //        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 //        navigationView.setNavigationItemSelectedListener(this);
 
-        installMod = (Button) findViewById(R.id.install_mod);
+        modelType = (RadioGroup) findViewById(R.id.model_type);
+
+        modelG5 = (RadioButton) findViewById(R.id.model_g5);
+        modelV20 = (RadioButton) findViewById(R.id.model_v20);
+
+        installMod = (Button) findViewById(R.id.install_mod_v20);
+        installMod_G5 = (Button) findViewById(R.id.install_mod_g5);
         installSysUI = (Button) findViewById(R.id.install_sysui);
         installSB = (Button) findViewById(R.id.install_sb);
-        installSig = (Button) findViewById(R.id.install_sig);
-        installQT = (Button) findViewById(R.id.install_qt);
+        installSig = (Button) findViewById(R.id.install_sig_v20);
+        installQT = (Button) findViewById(R.id.install_qt_v20);
         installMinRes = (Button) findViewById(R.id.install_minit);
 
         makeSysApp = (Button) findViewById(R.id.make_sysapp);
@@ -121,26 +139,54 @@ public class MainActivity extends AppCompatActivity
 
         chooseMods = (Switch) findViewById(R.id.switch_aio);
 
+        if (sharedPrefs.getBoolean("isv20", true)) {
+            isV20 = true;
+            modelV20.setChecked(true);
+            findViewById(R.id.install_qt_v20).setVisibility(View.VISIBLE);
+//            findViewById(R.id.install_sb_v20).setVisibility(View.VISIBLE);
+            findViewById(R.id.install_sig_v20).setVisibility(View.VISIBLE);
+
+            findViewById(R.id.sig_v20_text).setVisibility(View.VISIBLE);
+            findViewById(R.id.qt_v20_text).setVisibility(View.VISIBLE);
+
+            findViewById(R.id.install_aio_v20).setVisibility(View.VISIBLE);
+            findViewById(R.id.install_aio_g5).setVisibility(View.INVISIBLE);
+        } else {
+            isV20 = false;
+            modelG5.setChecked(true);
+            findViewById(R.id.install_qt_v20).setVisibility(View.INVISIBLE);
+//            findViewById(R.id.install_sb_v20).setVisibility(View.INVISIBLE);
+            findViewById(R.id.install_sig_v20).setVisibility(View.INVISIBLE);
+
+            findViewById(R.id.sig_v20_text).setVisibility(View.INVISIBLE);
+            findViewById(R.id.qt_v20_text).setVisibility(View.INVISIBLE);
+
+            findViewById(R.id.install_aio_g5).setVisibility(View.VISIBLE);
+            findViewById(R.id.install_aio_v20).setVisibility(View.INVISIBLE);
+        }
+
+        findViewById(R.id.install_choose).setVisibility(View.INVISIBLE);
+
         SUI = "installprivapp";
         SB = "installprivapp";
         Sig = "installapp";
         QT = "installprivapp";
         minRes = "MinitResources";
+        SB_G5 = "installprivapp";
 
         suiAPK = "LGSystemUI";
         sbAPK = "LGSignBoard";
         sigAPK = "SBSignature";
         qtAPK = "LGQuickTools";
         minZIP = "MinitResources";
-
-        findViewById(R.id.install_aio).setVisibility(View.VISIBLE);
-        findViewById(R.id.install_choose).setVisibility(View.INVISIBLE);
+        sbAPK_G5 = "LGSignBoardG5";
 
         try {
             if (firstStartRoot) firstStart();
             buttons();
             reqPerms();
             switches();
+            modelType();
         } catch (Exception e) {
             Log.e("error", e.getMessage());
         }
@@ -165,23 +211,33 @@ public class MainActivity extends AppCompatActivity
         chooseMods.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 int animTime = 300;
-                final LinearLayout layout1 = (LinearLayout) findViewById(R.id.install_aio);
+                final LinearLayout layout1 = (LinearLayout) findViewById(R.id.install_aio_v20);
                 final LinearLayout layout2 = (LinearLayout) findViewById(R.id.install_choose);
+                final LinearLayout layout3 = (LinearLayout) findViewById(R.id.install_aio_g5);
                 if (isChecked) {
-                    fadeInOutLayout(layout2, layout1, animTime);
-                    layout2.setVisibility(View.VISIBLE);
+                    if (isV20) {
+                        fadeInOutLayout(layout2, layout1, animTime);
+                    } else {
+                        fadeInOutLayout(layout2, layout3, animTime);
+                    }
                     layout1.setVisibility(View.GONE);
+                    layout3.setVisibility(View.GONE);
+                    layout2.setVisibility(View.VISIBLE);
                 } else {
-                    fadeInOutLayout(layout1, layout2, animTime);
+                    if (isV20) {
+                        fadeInOutLayout(layout1, layout2, animTime);
+                        layout1.setVisibility(View.VISIBLE);
+                    } else {
+                        fadeInOutLayout(layout3, layout2, animTime);
+                        layout3.setVisibility(View.VISIBLE);
+                    }
                     layout2.setVisibility(View.INVISIBLE);
-                    layout1.setVisibility(View.VISIBLE);
                 }
             }
         });
     }
 
     public void buttons() throws IOException {
-
         installMod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -216,6 +272,32 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        installMod_G5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Thread(new Runnable() {
+                    public void run() {
+                        try {
+                            copyAPK(suiAPK);
+                            copyFile2(SUI, suiAPK);
+
+                            copyAPK(sbAPK_G5);
+                            copyFile2(SB_G5, sbAPK_G5);
+
+                            copyZIP(minZIP);
+                            copyFile2(minRes, minZIP);
+
+                            runScript(minRes, minZIP);
+                            runScript(SUI, suiAPK);
+                            runScript(SB_G5, sbAPK_G5);
+                        } catch (Exception e) {
+                            Log.e("error", e.getMessage());
+                        }
+                    }
+                }).start();
+            }
+        });
+
         installSysUI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -240,10 +322,17 @@ public class MainActivity extends AppCompatActivity
                 new Thread(new Runnable() {
                     public void run() {
                         try {
-                            copyAPK(sbAPK);
-                            copyFile2(SB, sbAPK);
+                            if (isV20) {
+                                copyAPK(sbAPK);
+                                copyFile2(SB, sbAPK);
 
-                            runScript(SB, sbAPK);
+                                runScript(SB, sbAPK);
+                            } else {
+                                copyAPK(sbAPK_G5);
+                                copyFile2(SB_G5, sbAPK_G5);
+
+                                runScript(SB_G5, sbAPK_G5);
+                            }
                         } catch (Exception e) {
                             Log.e("error", e.getMessage());
                         }
@@ -349,6 +438,47 @@ public class MainActivity extends AppCompatActivity
                         startActivity(intent);
                     }
                 }).start();
+            }
+        });
+    }
+
+    public void modelType() throws IOException {
+        modelType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                if (checkedId == R.id.model_g5) {
+                    SharedPreferences.Editor editor = getSharedPreferences("zacharee1.com.modinstaller", MODE_PRIVATE).edit();
+                    editor.putBoolean("isv20", false);
+                    editor.apply();
+                    isV20 = false;
+                    if (!chooseMods.isChecked()) {
+                        findViewById(R.id.install_aio_v20).setVisibility(View.GONE);
+                        findViewById(R.id.install_aio_g5).setVisibility(View.VISIBLE);
+                    }
+                    findViewById(R.id.install_qt_v20).setVisibility(View.INVISIBLE);
+//                    findViewById(R.id.install_sb_v20).setVisibility(View.INVISIBLE);
+
+                    findViewById(R.id.sig_v20_text).setVisibility(View.INVISIBLE);
+                    findViewById(R.id.qt_v20_text).setVisibility(View.INVISIBLE);
+
+                    findViewById(R.id.install_sig_v20).setVisibility(View.INVISIBLE);
+                } else if (checkedId == R.id.model_v20) {
+                    SharedPreferences.Editor editor = getSharedPreferences("zacharee1.com.modinstaller", MODE_PRIVATE).edit();
+                    editor.putBoolean("isv20", true);
+                    editor.apply();
+                    isV20 = true;
+                    if (!chooseMods.isChecked()) {
+                        findViewById(R.id.install_aio_v20).setVisibility(View.VISIBLE);
+                        findViewById(R.id.install_aio_g5).setVisibility(View.GONE);
+                    }
+                    findViewById(R.id.install_qt_v20).setVisibility(View.VISIBLE);
+//                    findViewById(R.id.install_sb_v20).setVisibility(View.VISIBLE);
+
+                    findViewById(R.id.sig_v20_text).setVisibility(View.VISIBLE);
+                    findViewById(R.id.qt_v20_text).setVisibility(View.VISIBLE);
+
+                    findViewById(R.id.install_sig_v20).setVisibility(View.VISIBLE);
+                }
             }
         });
     }
