@@ -1,28 +1,32 @@
 #!/system/bin/sh
 
-# am start -n com.android.settings/com.android.settings.Settings
+echo "$(date)"
+echo "Installing: 3Minit Resources"
 
-mount -o rw,remount /
-mount -o rw,remount /system
+mount -vo rw,remount /
+mount -vo rw,remount /system
 
 BAT="3MinitBatterySettings"
 BATRES="MinitBatteryResources"
 CLOCK="3MinitClock"
 
-mkdir /system/app/"$BAT"
-mkdir /system/app/"$CLOCK"
-mkdir /system/app/"$BATRES"
+mkdir -v /data/media/0/Zacharee1Mods/mod
+mkdir -v /system/app/"$BAT"
+mkdir -v /system/app/"$CLOCK"
+mkdir -v /system/app/"$BATRES"
 
-unzip -od /data/media/0/Zacharee1Mods/mod/ /data/media/0/Zacharee1Mods/"$1".zip
+unzip -odv /data/media/0/Zacharee1Mods/mod/ /data/media/0/Zacharee1Mods/"$1".zip
 
-cp "$BAT".apk /system/app/"$BAT"/"$BAT".apk
-cp "$BATRES".apk /system/app/"$BATRES"/"$BATRES".apk
-cp "$CLOCK".apk /system/app/"$CLOCK"/"$CLOCK".apk
+cp -v /data/media/0/Zacharee1Mods/mod/"$BAT".apk /system/app/"$BAT"/"$BAT".apk
+cp -v /data/media/0/Zacharee1Mods/mod/"$BATRES".apk /system/app/"$BATRES"/"$BATRES".apk
+cp -v /data/media/0/Zacharee1Mods/mod/"$CLOCK".apk /system/app/"$CLOCK"/"$CLOCK".apk
 
-chmod 0755 /system/app/"$BAT"/
-chmod 0755 /system/app/"$BATRES"/
-chmod 0755 /system/app/"$CLOCK"/
+chmod -v 0755 /system/app/"$BAT"/
+chmod -v 0755 /system/app/"$BATRES"/
+chmod -v 0755 /system/app/"$CLOCK"/
 
-chmod 0644 /system/app/"$BAT"/"$BAT".apk
-chmod 0644 /system/app/"$BATRES"/"$BATRES".apk
-chmod 0644 /system/app/"$CLOCK"/"$CLOCK".apk
+chmod -v 0644 /system/app/"$BAT"/"$BAT".apk
+chmod -v 0644 /system/app/"$BATRES"/"$BATRES".apk
+chmod -v 0644 /system/app/"$CLOCK"/"$CLOCK".apk
+
+echo "\n"

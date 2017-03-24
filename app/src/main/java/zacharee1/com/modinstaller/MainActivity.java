@@ -635,7 +635,7 @@ public class MainActivity extends AppCompatActivity
         try {
             sudo("chmod +x /data/media/0/Zacharee1Mods/" + targetFile);
             sudo("chmod 777 /data/media/0/Zacharee1Mods/" + targetFile);
-            sudo("sh /data/media/0/Zacharee1Mods/" + targetFile + " " + zip);
+            sudo("sh /data/media/0/Zacharee1Mods/" + targetFile + " " + zip + " >> /data/media/0/Zacharee1Mods/output.log 2>&1");
         } catch (Exception e) {
             Log.e("error", e.getMessage());
         }

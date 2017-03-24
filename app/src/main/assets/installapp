@@ -1,9 +1,12 @@
 #!/system/bin/sh
 
-# am start -n com.android.settings/com.android.settings.Settings
+echo "$(date)"
+echo "Installing: '$1'"
 
-mount -o rw,remount /
-mount -o rw,remount /system
+mount -vo rw,remount /
+mount -vo rw,remount /system
 
-cp /data/media/0/Zacharee1Mods/"$1".apk /system/app/"$1"/"$1".apk
-chmod 0644 /system/app/"$1"/"$1".apk
+cp -v /data/media/0/Zacharee1Mods/"$1".apk /system/app/"$1"/"$1".apk
+chmod -v 0644 /system/app/"$1"/"$1".apk
+
+echo "\n"

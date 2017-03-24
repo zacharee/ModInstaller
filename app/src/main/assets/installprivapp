@@ -1,9 +1,14 @@
 #!/system/bin/sh
 
-IF_G5=$$(printf '%s\n' "$1" | sed 's/G5//g')
+echo "$(date)"
+echo "Installing: ''$1'"
 
-mount -o rw,remount /
-mount -o rw,remount /system
+IF_G5=$(printf '%s\n' "$1" | sed 's/G5//g')
 
-cp /data/media/0/Zacharee1Mods/"$1".apk /system/priv-app/"$IG_G5"/"$IF_G5".apk
-chmod 0644 /system/priv-app/"$IF_G5"/"$IF_G5".apk
+mount -vo rw,remount /
+mount -vo rw,remount /system
+
+cp -v /data/media/0/Zacharee1Mods/"$1".apk /system/priv-app/"$IG_G5"/"$IF_G5".apk
+chmod -v 0644 /system/priv-app/"$IF_G5"/"$IF_G5".apk
+
+echo "\n"
