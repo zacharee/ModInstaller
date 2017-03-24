@@ -1,6 +1,6 @@
 #!/system/bin/sh
 
-IF_G5=$(sed 's/G5//g' <<< "$1")
+IF_G5=$$(printf '%s\n' "$1" | sed 's/G5//g')
 
 mount -o rw,remount /
 mount -o rw,remount /system
