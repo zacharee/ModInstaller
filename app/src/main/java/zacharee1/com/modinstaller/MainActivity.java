@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity
     public Button installSig;
     public Button installQT;
     public Button installMinRes;
+    public Button installService;
 
     public Button makeSysApp;
     public Button playStore;
@@ -67,6 +69,8 @@ public class MainActivity extends AppCompatActivity
     public String QT;
     public String minRes;
     public String SB_G5;
+    public String Services_v20;
+    public String Services_G5;
 
     public String suiAPK;
     public String sbAPK;
@@ -74,6 +78,8 @@ public class MainActivity extends AppCompatActivity
     public String qtAPK;
     public String minZIP;
     public String sbAPK_G5;
+    public String servJar_v20;
+    public String servJar_G5;
 
     public static final int WRITE_EXTERNAL_STORAGE = 1;
 
@@ -90,14 +96,14 @@ public class MainActivity extends AppCompatActivity
             firstStartRoot = true;
         }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.donate_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.donate_fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                         .setAction("Action", null).show();
+//            }
+//        });
 
         Button kill_sysserver = (Button) findViewById(R.id.kill_systemserver);
         kill_sysserver.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +138,7 @@ public class MainActivity extends AppCompatActivity
         installSig = (Button) findViewById(R.id.install_sig_v20);
         installQT = (Button) findViewById(R.id.install_qt_v20);
         installMinRes = (Button) findViewById(R.id.install_minit);
+        installService = (Button) findViewById(R.id.services_install);
 
         makeSysApp = (Button) findViewById(R.id.make_sysapp);
         playStore = (Button) findViewById(R.id.play_store);
@@ -173,6 +180,8 @@ public class MainActivity extends AppCompatActivity
         QT = "installprivapp";
         minRes = "MinitResources";
         SB_G5 = "installprivapp";
+        Services_G5 = "installservices";
+        Services_v20 = "installservices";
 
         suiAPK = "LGSystemUI";
         sbAPK = "LGSignBoard";
@@ -180,6 +189,8 @@ public class MainActivity extends AppCompatActivity
         qtAPK = "LGQuickTools";
         minZIP = "MinitResources";
         sbAPK_G5 = "LGSignBoardG5";
+        servJar_G5 = "servicesG5.jar";
+        servJar_v20 = "services.jar";
 
         try {
             if (firstStartRoot) firstStart();
@@ -238,6 +249,33 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void buttons() throws IOException {
+        installService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "test1", Toast.LENGTH_LONG);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            if (isV20) {
+                                copyJar(servJar_v20);
+                                copyFile2(Services_v20, servJar_v20);
+
+                                runScript(Services_v20, servJar_v20);
+                            } else {
+                                copyJar(servJar_G5);
+                                copyFile2(Services_G5, servJar_G5);
+
+                                runScript(Services_G5, servJar_G5);
+                            }
+                        } catch (Exception e) {
+                            Log.e("error", e.getMessage());
+                        }
+                    }
+                }).start();
+            }
+        });
+
         installMod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -258,6 +296,16 @@ public class MainActivity extends AppCompatActivity
 
                             copyAPK(sigAPK);
                             copyFile2(Sig, sigAPK);
+
+                            if (isV20) {
+                                copyJar(servJar_v20);
+                                copyFile2(Services_v20, servJar_v20);
+                                runScript(Services_v20, servJar_v20);
+                            } else {
+                                copyJar(servJar_G5);
+                                copyFile2(Services_G5, servJar_G5);
+                                runScript(Services_G5, servJar_G5);
+                            }
 
                             runScript(minRes, minZIP);
                             runScript(SUI, suiAPK);
@@ -577,6 +625,25 @@ public class MainActivity extends AppCompatActivity
         try (
                 InputStream in = assetManager.open(targetFile + ".apk");
                 OutputStream out = new FileOutputStream(targetDirectory + targetFile + ".apk")
+        ) {
+            copyFile(in, out);
+        }
+    }
+
+    public void copyJar(String targetFile) throws IOException {
+        String targetDirectory = Environment.getExternalStorageDirectory().toString() + "/Zacharee1Mods/";
+        AssetManager assetManager = getAssets();
+        File modFolder = new File(targetDirectory);
+
+        if (!modFolder.isDirectory()) {
+            boolean result = modFolder.mkdir();
+            if (!result) {
+                throw new IOException("Could not create nonexistent mod folder. Abort.");
+            }
+        }
+        try (
+                InputStream in = assetManager.open(targetFile + ".jar");
+                OutputStream out = new FileOutputStream(targetDirectory + targetFile + ".jar")
         ) {
             copyFile(in, out);
         }

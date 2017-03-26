@@ -1,14 +1,18 @@
 #!/system/bin/sh
 
+echo "##########################################"
 echo "$(date)"
 echo "Installing: ''$1'"
 
 IF_G5=$(printf '%s\n' "$1" | sed 's/G5//g')
 
+echo " "
 mount -vo rw,remount /
 mount -vo rw,remount /system
 
+echo " "
 cp -v /data/media/0/Zacharee1Mods/"$1".apk /system/priv-app/"$IG_G5"/"$IF_G5".apk
 chmod -v 0644 /system/priv-app/"$IF_G5"/"$IF_G5".apk
 
+echo "##########################################"
 echo "\n"

@@ -1,0 +1,18 @@
+#!/system/bin/sh
+
+echo "##########################################"
+echo "$(date)"
+echo "Installing: '$1'"
+
+IF_G5=$(printf '%s\n' "$1" | sed 's/G5//g')
+
+echo " "
+mount -vo rw,remount /
+mount -vo rw,remount /system
+
+echo " "
+cp -v /data/media/0/Zacharee1Mods/"$1".jar /system/framework/"$IF_G5".jar
+chmod -v 0644 /system/framework/"$IF_G5".jar
+
+echo "##########################################"
+echo "\n"

@@ -182,7 +182,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Color Signature when display is on"
+                                android:text="Colored Signature when display is powered on"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/tertiary_text_light" />
                         </LinearLayout>
@@ -191,12 +191,12 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:orientation="horizontal">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <Button
@@ -212,6 +212,30 @@
                                 android:layout_height="wrap_content"
                                 android:text="Colored AOD Signature, AOD 3Minit Clock/Battery"
                                 android:textAlignment="center" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/services_install"
+                                style="@style/Widget.AppCompat.Button.Colored"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="services" />
+
+                            <TextView
+                                android:id="@+id/services_info"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Wake on Plug\n"
+                                android:textAlignment="center"
+                                android:textColor="@android:color/tertiary_text_light" />
                         </LinearLayout>
                     </LinearLayout>
 
