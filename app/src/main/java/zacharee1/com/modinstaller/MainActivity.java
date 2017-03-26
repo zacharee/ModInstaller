@@ -189,8 +189,8 @@ public class MainActivity extends AppCompatActivity
         qtAPK = "LGQuickTools";
         minZIP = "MinitResources";
         sbAPK_G5 = "LGSignBoardG5";
-        servJar_G5 = "servicesG5.jar";
-        servJar_v20 = "services.jar";
+        servJar_G5 = "servicesG5";
+        servJar_v20 = "services";
 
         try {
             if (firstStartRoot) firstStart();
@@ -252,7 +252,6 @@ public class MainActivity extends AppCompatActivity
         installService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "test1", Toast.LENGTH_LONG);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
