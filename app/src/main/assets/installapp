@@ -1,8 +1,8 @@
 #!/system/bin/sh
 
-echo "##########################################"
-echo "$(date)"
-echo "Installing: '$1'"
+echo "<font color='#FF0000'>##########################################</font>"
+echo "<font color='#00FF00'>$(date)</font>"
+echo "<font color='#0000FF'>Installing: '$1'</font>"
 
 echo " "
 mount -vo rw,remount /
@@ -12,5 +12,5 @@ echo " "
 cp -v /data/media/0/Zacharee1Mods/"$1".apk /system/app/"$1"/"$1".apk
 chmod -v 0644 /system/app/"$1"/"$1".apk
 
-echo "##########################################"
+echo "<font color='#FF0000'>##########################################</font>"
 echo "\n"

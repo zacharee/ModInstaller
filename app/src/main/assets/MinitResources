@@ -1,9 +1,9 @@
 #!/system/bin/sh
 
 
-echo "##########################################"
-echo "$(date)"
-echo "Installing: 3Minit Resources"
+echo "<font color='#FF0000'>##########################################</font>"
+echo "<font color='#00FF00'>$(date)</font>"
+echo "<font color='#0000FF'>Installing: 3Minit Resources</font>"
 
 echo " "
 mount -vo rw,remount /
@@ -38,5 +38,5 @@ chmod -v 0644 /system/app/"$BAT"/"$BAT".apk
 chmod -v 0644 /system/app/"$BATRES"/"$BATRES".apk
 chmod -v 0644 /system/app/"$CLOCK"/"$CLOCK".apk
 
-echo "##########################################"
+echo "<font color='#FF0000'>##########################################</font>"
 echo "\n"
