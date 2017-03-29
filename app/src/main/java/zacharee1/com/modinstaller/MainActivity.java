@@ -2,6 +2,8 @@ package zacharee1.com.modinstaller;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.media.MediaRecorder;
@@ -28,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.DataOutputStream;
@@ -36,6 +39,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 public class MainActivity extends AppCompatActivity
         /*implements NavigationView.OnNavigationItemSelectedListener*/ {
@@ -81,6 +88,10 @@ public class MainActivity extends AppCompatActivity
     public String servJar_v20;
     public String servJar_G5;
 
+    public TextView versionName;
+    public TextView versionNum;
+    public TextView buildDate;
+
     public static final int WRITE_EXTERNAL_STORAGE = 1;
 
     @Override
@@ -112,10 +123,34 @@ public class MainActivity extends AppCompatActivity
                 try {
                     sudo("killall system_server");
                 } catch (Exception e) {
-                    Log.e("error", e.getMessage());
+                    Log.e("ModInstaller/E", e.getMessage());
                 }
             }
         });
+
+        versionName = (TextView) findViewById(R.id.vername);
+        versionNum = (TextView) findViewById(R.id.vernum);
+        buildDate = (TextView) findViewById(R.id.build_date);
+
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            String version = pInfo.versionName;
+            int verCode = pInfo.versionCode;
+            versionName.append(version);
+            versionNum.append(String.valueOf(verCode));
+
+//            ApplicationInfo ai = getPackageManager().getApplicationInfo(getPackageName(), 0);
+//            ZipFile zf = new ZipFile(ai.sourceDir);
+//            ZipEntry ze = zf.getEntry("classes.dex");
+//            long time = ze.getTime();
+//            String s = SimpleDateFormat.getInstance().format(new java.util.Date(time));
+//            zf.close();
+
+            Date buildD = new Date(BuildConfig.TIMESTAMP);
+            buildDate.append(String.valueOf(buildD));
+        } catch (Exception e) {
+            Log.e("ModInstaller/E", e.getMessage());
+        }
 
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -199,7 +234,7 @@ public class MainActivity extends AppCompatActivity
             switches();
             modelType();
         } catch (Exception e) {
-            Log.e("error", e.getMessage());
+            Log.e("ModInstaller/E", e.getMessage());
         }
     }
 
@@ -268,7 +303,7 @@ public class MainActivity extends AppCompatActivity
                                 runScript(Services_G5, servJar_G5);
                             }
                         } catch (Exception e) {
-                            Log.e("error", e.getMessage());
+                            Log.e("ModInstaller/E", e.getMessage());
                         }
                     }
                 }).start();
@@ -312,7 +347,7 @@ public class MainActivity extends AppCompatActivity
                             runScript(QT, qtAPK);
                             runScript(Sig, sigAPK);
                         } catch (Exception e) {
-                            Log.e("error", e.getMessage());
+                            Log.e("ModInstaller/E", e.getMessage());
                         }
                     }
                 }).start();
@@ -338,7 +373,7 @@ public class MainActivity extends AppCompatActivity
                             runScript(SUI, suiAPK);
                             runScript(SB_G5, sbAPK_G5);
                         } catch (Exception e) {
-                            Log.e("error", e.getMessage());
+                            Log.e("ModInstaller/E", e.getMessage());
                         }
                     }
                 }).start();
@@ -356,7 +391,7 @@ public class MainActivity extends AppCompatActivity
 
                             runScript(SUI, suiAPK);
                         } catch (Exception e) {
-                            Log.e("error", e.getMessage()); //commit problems...
+                            Log.e("ModInstaller/E", e.getMessage()); //commit problems...
                         }
                     }
                 }).start();
@@ -381,7 +416,7 @@ public class MainActivity extends AppCompatActivity
                                 runScript(SB_G5, sbAPK_G5);
                             }
                         } catch (Exception e) {
-                            Log.e("error", e.getMessage());
+                            Log.e("ModInstaller/E", e.getMessage());
                         }
                     }
                 }).start();
@@ -399,7 +434,7 @@ public class MainActivity extends AppCompatActivity
 
                             runScript(Sig, sigAPK);
                         } catch (Exception e) {
-                            Log.e("error", e.getMessage());
+                            Log.e("ModInstaller/E", e.getMessage());
                         }
                     }
                 }).start();
@@ -417,7 +452,7 @@ public class MainActivity extends AppCompatActivity
 
                             runScript(QT, qtAPK);
                         } catch (Exception e) {
-                            Log.e("error", e.getMessage());
+                            Log.e("ModInstaller/E", e.getMessage());
                         }
                     }
                 }).start();
@@ -435,7 +470,7 @@ public class MainActivity extends AppCompatActivity
 
                             runScript(minRes, minZIP);
                         } catch (Exception e) {
-                            Log.e("error", e.getMessage());
+                            Log.e("ModInstaller/E", e.getMessage());
                         }
                     }
                 }).start();
@@ -455,7 +490,7 @@ public class MainActivity extends AppCompatActivity
                             sudo("chmod 0755 /system/priv-app/ModControl/");
                             sudo("chmod 0644 /system/priv-app/ModControl/ModControl.apk");
                         } catch (Exception e) {
-                            Log.e("error", e.getMessage());
+                            Log.e("ModInstaller/E", e.getMessage());
                         }
                     }
                 }).start();
@@ -685,7 +720,7 @@ public class MainActivity extends AppCompatActivity
         ) {
             copyFile(in, out);
         } catch (Exception e) {
-            Log.e("error", e.getMessage());
+            Log.e("ModInstaller/E", e.getMessage());
         }
     }
 
@@ -702,8 +737,9 @@ public class MainActivity extends AppCompatActivity
             sudo("chmod +x /data/media/0/Zacharee1Mods/" + targetFile);
             sudo("chmod 777 /data/media/0/Zacharee1Mods/" + targetFile);
             sudo("sh /data/media/0/Zacharee1Mods/" + targetFile + " " + zip + " >> /data/media/0/Zacharee1Mods/output.log 2>&1");
+            sudo("chmod 0777 /data/media/0/Zacharee1Mods/output.log");
         } catch (Exception e) {
-            Log.e("error", e.getMessage());
+            Log.e("ModInstaller/E", e.getMessage());
         }
     }
 

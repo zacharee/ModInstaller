@@ -7,9 +7,11 @@ android {
         applicationId "zacharee1.com.modinstaller"
         minSdkVersion 24
         targetSdkVersion 25
-        versionCode 16
-        versionName "2.6"
+        versionCode 17
+        versionName "2.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "long", "TIMESTAMP", System.currentTimeMillis() + "L"
     }
     buildTypes {
         release {
