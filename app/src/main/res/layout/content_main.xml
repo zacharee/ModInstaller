@@ -34,10 +34,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
+                android:checked="true"
                 android:switchMinWidth="50dp"
                 android:text="Choose mods to install?"
                 android:textColor="@android:color/tertiary_text_light"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:visibility="gone" />
 
             <RadioGroup
                 android:id="@+id/model_type"
@@ -136,6 +138,57 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/install_sb"
+                                style="@style/Widget.AppCompat.Button.Colored"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="LGSignBoard" />
+
+                            <TextView
+                                android:id="@+id/textView3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Colored AOD Signature, AOD 3Minit Clock/Battery"
+                                android:textAlignment="center" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/services_install"
+                                style="@style/Widget.AppCompat.Button.Colored"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="services" />
+
+                            <TextView
+                                android:id="@+id/services_info"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Wake on Plug\n"
+                                android:textAlignment="center"
+                                android:textColor="@android:color/tertiary_text_light" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
@@ -183,57 +236,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Colored Signature when display is powered on"
-                                android:textAlignment="center"
-                                android:textColor="@android:color/tertiary_text_light" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <Button
-                                android:id="@+id/install_sb"
-                                style="@style/Widget.AppCompat.Button.Colored"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="LGSignBoard" />
-
-                            <TextView
-                                android:id="@+id/textView3"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Colored AOD Signature, AOD 3Minit Clock/Battery"
-                                android:textAlignment="center" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <Button
-                                android:id="@+id/services_install"
-                                style="@style/Widget.AppCompat.Button.Colored"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="services" />
-
-                            <TextView
-                                android:id="@+id/services_info"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Wake on Plug\n"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/tertiary_text_light" />
                         </LinearLayout>

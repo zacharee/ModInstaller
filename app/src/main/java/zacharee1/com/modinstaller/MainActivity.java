@@ -227,6 +227,14 @@ public class MainActivity extends AppCompatActivity
         servJar_G5 = "servicesG5";
         servJar_v20 = "services";
 
+        final LinearLayout layout1 = (LinearLayout) findViewById(R.id.install_aio_v20);
+        final LinearLayout layout2 = (LinearLayout) findViewById(R.id.install_choose);
+        final LinearLayout layout3 = (LinearLayout) findViewById(R.id.install_aio_g5);
+
+        layout1.setVisibility(View.GONE);
+        layout3.setVisibility(View.GONE);
+        layout2.setVisibility(View.VISIBLE);
+
         try {
             if (firstStartRoot) firstStart();
             buttons();

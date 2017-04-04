@@ -2,7 +2,7 @@
 
 echo "<font color='#FF0000'>##########################################</font>"
 echo "<font color='#00FF00'>$(date)</font>"
-echo "<font color='#0000FF'>Installing: ''$1'</font>"
+echo "<font color='#0000FF'>Installing: '$1'</font>"
 
 IF_G5=$(printf '%s\n' "$1" | sed 's/G5//g')
 
