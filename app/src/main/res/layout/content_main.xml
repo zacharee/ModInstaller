@@ -23,11 +23,20 @@
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
                 android:text="ModControl Installer"
                 android:textAlignment="center"
                 android:textColor="@android:color/primary_text_light"
                 android:textSize="26sp" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="PLEASE INSTALL STERICSON'S BUSYBOX FROM THE PLAY STORE!"
+                android:textAlignment="center"
+                android:textColor="#f00"
+                android:textStyle="bold" />
 
             <Switch
                 android:id="@+id/switch_aio"

@@ -1,18 +1,20 @@
-#!/system/bin/sh
+#!/system/xbin/sh
 
 echo "<font color='#FF0000'>##########################################</font>"
 echo "<font color='#00FF00'>$(date)</font>"
 echo "<font color='#0000FF'>Installing: '$1'</font>"
 
-IF_G5=$(printf '%s\n' "$1" | sed 's/G5//g')
+IF_G5=$(printf '%s\n' $1 | sed 's/G5//g')
 
 echo " "
-mount -vo rw,remount /
-mount -vo rw,remount /system
+busybox mount -vo rw,remount /
+busybox mount -vo rw,remount /system
 
 echo " "
-cp -v /data/media/0/Zacharee1Mods/"$1".apk /system/priv-app/"$IG_G5"/"$IF_G5".apk
-chmod -v 0644 /system/priv-app/"$IF_G5"/"$IF_G5".apk
+echo "cd /system/priv-app/$IF_G5/"
+cd /system/priv-app/"$IF_G5"/
+busybox cp -v /data/media/0/Zacharee1Mods/"$1".apk "$IF_G5".apk
+busybox chmod -v 0644 /system/priv-app/"$IF_G5"/"$IF_G5".apk
 
 echo "<font color='#FF0000'>##########################################</font>"
 echo "\n"
