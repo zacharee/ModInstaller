@@ -8,7 +8,7 @@ IF_G5=$(printf '%s\n' $1 | sed 's/G5//g')
 
 echo " "
 busybox mount -vo rw,remount /
-busybox mount -vo rw,remount /system
+``
 
 echo " "
 echo "cd /system/priv-app/$IF_G5/"
